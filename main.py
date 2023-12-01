@@ -1,18 +1,22 @@
 import gensim.downloader
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
+import matplotlib.pyplot as plt
 
+corpora_sizes = []
+accuracies = []
+model_names = []
 
 print("loading models and calculating data...")
 # Load the pre-trained Word2Vec model
 model_1 = gensim.downloader.load("word2vec-google-news-300")
 
 model_from_diff_corpus_1 = gensim.downloader.load("fasttext-wiki-news-subwords-300")
-model_from_diff_corpus_2 = gensim.downloader.load("glove-twitter-25")
+model_from_diff_corpus_2 = gensim.downloader.load("glove-wiki-gigaword-300")
 
 
-model_same_corpus_100 = gensim.downloader.load("glove-wiki-gigaword-100")
-model_same_corpus_300 = gensim.downloader.load("glove-wiki-gigaword-300")
+model_same_corpus_25 = gensim.downloader.load("glove-twitter-25")
+model_same_corpus_100 = gensim.downloader.load("glove-twitter-100")
 
 
 # Load the Synonym Test dataset
@@ -84,6 +88,10 @@ def evaluate_model(modelName, model, corpora_size):
             f"{corpora_size},{len(model.key_to_index)},{correct_labels},{questions_without_guessing},{accuracy}\n"
         )
 
+    corpora_sizes.append(len(model.key_to_index))
+    accuracies.append(accuracy)
+    model_names.append(corpora_size)
+
 
 # Task 1
 evaluate_model("word2vec-google-news-300-details.csv", model_1, "Google-News-300")
@@ -97,14 +105,35 @@ evaluate_model(
 )
 
 evaluate_model(
-    "glove-twitter-25-details.csv", model_from_diff_corpus_2, "Twitter-25"
-)  # this is no good I need to find a 300 size model b4 demo or submission
+    "glove-wiki-gigaword-300-details.csv", model_from_diff_corpus_2, "Glove-Wiki-300"
+)
 
 
 # Same Corpora different size
-evaluate_model(
-    "glove-wiki-gigaword-100-details.csv", model_same_corpus_100, "Wiki-GigaWord-100"
-)
-evaluate_model(
-    "glove-wiki-gigaword-300-details.csv", model_same_corpus_300, "Wiki-GigaWord-300"
-)
+evaluate_model("glove-twitter-25-details.csv", model_same_corpus_25, "Twitter-25")
+evaluate_model("glove-twitter-100-details.csv", model_same_corpus_100, "Twitter-100")
+
+
+plt.figure(figsize=(10, 6))
+plt.scatter(corpora_sizes, accuracies, marker="o", color="b", label="Model Performance")
+
+for i, txt in enumerate(model_names):
+    plt.annotate(
+        txt,
+        (corpora_sizes[i], accuracies[i]),
+        textcoords="offset points",
+        xytext=(0, 5),
+        ha="center",
+    )
+
+plt.title("Word Embedding Model Performance")
+plt.xlabel("Corpus Size")
+plt.ylabel("Accuracy")
+plt.legend()
+plt.grid(True)
+
+
+plt.xlim(0, max(corpora_sizes) + 100)
+plt.xticks(corpora_sizes)
+
+plt.show()
