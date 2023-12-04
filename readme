@@ -1,3 +1,6 @@
+You may clear the analysis.csv file except for the first line if you want to generate new results.
+
+If you want to generate new results:
 To Run this code you will first need to run the main.py file using:
 python3 main.py
 then for the task 3 run :
