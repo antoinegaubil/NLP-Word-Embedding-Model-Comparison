@@ -1,7 +1,1 @@
-You may clear the analysis.csv file except for the first line if you want to generate new results.
-
-If you want to generate new results:
-To Run this code you will first need to run the main.py file using:
-python3 main.py
-then for the task 3 run :
-python3 task3.py
+This project explores the performance of different word embedding models, such as Word2Vec and GloVe, through synonym tests. The evaluation includes model comparison based on corpus sizes and custom models trained on book data, providing insights into the strengths and weaknesses of each approach. The accompanying analysis.csv file presents detailed results, and visualizations offer a comprehensive overview of the models' accuracy across different parameters.
