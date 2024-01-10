@@ -15,10 +15,3 @@ The exploration involves loading pre-trained models, such as 'word2vec-google-ne
 ## Results and Analysis
 The project generates detailed analysis files, including accuracy metrics and model comparisons, providing a comprehensive view of how each NLP model fares in capturing nuanced language relationships.
 
-## Dependencies
-- Python
-- Gensim
-- Pandas
-- Scikit-learn
-- Matplotlib
-- NLTK
